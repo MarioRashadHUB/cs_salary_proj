@@ -9,6 +9,7 @@ Created on Thu May 14 13:28:48 2020
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 pd.options.display.max_columns = None
 pd.options.display.max_rows = None
@@ -62,63 +63,108 @@ from sklearn.model_selection import cross_val_score
 
 np.mean(cross_val_score(lm, X_train, y_train, scoring = 'neg_mean_absolute_error', cv= 10))
 
-# lasso regression 
-lm_l = Lasso(alpha=.13)
-lm_l.fit(X_train,y_train)
-np.mean(cross_val_score(lm_l,X_train,y_train, scoring = 'neg_mean_absolute_error', cv= 3))
+# lasso regression  (L1 Regularization)
+from sklearn.linear_model import Lasso
+
+lm_las = Lasso() # alpha defaults to 1
+lm_las.fit(X_train, y_train)
+np.mean(cross_val_score(lm_las, X_train, y_train, scoring = 'neg_mean_absolute_error', cv= 10))
+
+# Find the optimal alpha
 
 alpha = []
-error = []
+err = []
 
-for i in range(1,100):
-    alpha.append(i/100)
-    lml = Lasso(alpha=(i/100))
-    error.append(np.mean(cross_val_score(lml,X_train,y_train, scoring = 'neg_mean_absolute_error', cv= 3)))
-    
-plt.plot(alpha,error)
+for i in range(1, 100):
+  alpha.append(i/100)
+  lmlas = Lasso(alpha = (i/100))
+  err.append(np.mean(cross_val_score(lmlas, X_train, y_train, scoring = 'neg_mean_absolute_error', cv = 10)))
 
-err = tuple(zip(alpha,error))
-df_err = pd.DataFrame(err, columns = ['alpha','error'])
-df_err[df_err.error == max(df_err.error)]
+plt.plot(alpha,err)
 
-# random forest 
+# shows that alpha is best at 0.99 (shows where optimal alpha is)
+err = tuple(zip(alpha,err))
+df_err = pd.DataFrame(err, columns = ['alpha','err'])
+df_err[df_err.err == max(df_err.err)]
+
+lm_las = Lasso(0.99) # alpha defaults to 1
+lm_las.fit(X_train, y_train)
+np.mean(cross_val_score(lm_las, X_train, y_train, scoring = 'neg_mean_absolute_error', cv= 10))
+
+# Ridge Regression (L2 Regularization)
+from sklearn.linear_model import Ridge
+
+lm_rid = Ridge()
+lm_rid.fit(X_train, y_train)
+np.mean(cross_val_score(lm_rid, X_train, y_train, scoring = 'neg_mean_absolute_error', cv = 10))
+
+alpha = []
+err = []
+
+for i in range(1, 100):
+  alpha.append(i/100)
+  lmrid = Ridge(alpha = (i/100))
+  err.append(np.mean(cross_val_score(lmrid, X_train, y_train, scoring = 'neg_mean_absolute_error', cv = 10)))
+
+plt.plot(alpha,err)
+
+# Random Forrest
 from sklearn.ensemble import RandomForestRegressor
-rf = RandomForestRegressor()
 
-np.mean(cross_val_score(rf,X_train,y_train,scoring = 'neg_mean_absolute_error', cv= 3))
+rf = RandomForestRegressor(max_depth=2, random_state=0)
 
-# tune models GridsearchCV 
+np.mean(cross_val_score(rf, X_train, y_train, scoring = 'neg_mean_absolute_error', cv= 10))
+
+# Tuning Random Forest using GridSearch
 from sklearn.model_selection import GridSearchCV
-parameters = {'n_estimators':range(10,300,10), 'criterion':('mse','mae'), 'max_features':('auto','sqrt','log2')}
 
-gs = GridSearchCV(rf,parameters,scoring='neg_mean_absolute_error',cv=3)
-gs.fit(X_train,y_train)
+params = {'n_estimators':range(10,100,10), 'criterion':('mse','mae'), 'max_features':('auto','sqrt','log2')}
 
-gs.best_score_
-gs.best_estimator_
+gs_rf = GridSearchCV(rf, params ,scoring = 'neg_mean_absolute_error', cv = 10)
+gs_rf.fit(X_train, y_train)
 
-# test ensembles 
-tpred_lm = lm.predict(X_test)
-tpred_lml = lm_l.predict(X_test)
-tpred_rf = gs.best_estimator_.predict(X_test)
+gs_rf.best_score_
+gs_rf.best_estimator_
 
-from sklearn.metrics import mean_absolute_error
-mean_absolute_error(y_test,tpred_lm)
-mean_absolute_error(y_test,tpred_lml)
-mean_absolute_error(y_test,tpred_rf)
+# XGBoost ()
+from xgboost import XGBClassifier
 
-#good for classification
-mean_absolute_error(y_test,(tpred_lm+tpred_rf)/2)
+# initialize the linear regression model
+xgb = XGBClassifier()
 
-import pickle
-pickl = {'model': gs.best_estimator_}
-pickle.dump( pickl, open( 'model_file' + ".p", "wb" ) )
+# train the model
+xgb.fit(X_train, y_train)
 
-file_name = "model_file.p"
-with open(file_name, 'rb') as pickled:
-    data = pickle.load(pickled)
-    model = data['model']
+np.mean(cross_val_score(xgb ,X_train, y_train, scoring = 'neg_mean_absolute_error', cv = 10))
 
-model.predict(np.array(list(X_test.iloc[1,:])).reshape(1,-1))[0]
+# Tuning XGBoost using GridSearchCV
+params = {'min_child_weight': [3, 5], 'gamma': [0.5, 1], 'subsample': [0.8, 1.0],
+          'colsample_bytree': [0.6, 0.8], 'max_depth': [1,2]}
 
-list(X_test.iloc[1,:])
+gs_xgb = GridSearchCV(xgb, params ,scoring = 'neg_mean_absolute_error', cv = 10)
+gs_xgb.fit(X_train, y_train)
+
+gs_xgb.best_score_
+
+gs_xgb.best_estimator_
+
+# Comparing model performances
+lm_pred = lm.predict(X_test)
+lm_las_pred = lm_las.predict(X_test)
+lm_rid_pred = lm_rid.predict(X_test)
+rf_pred = gs_rf.best_estimator_.predict(X_test)
+xgb_pred = gs_xgb.best_estimator_.predict(X_test)
+
+print("MLR MAE: ", mean_absolute_error(y_test, lm_pred))
+print("Lasso Regression MAE: ", mean_absolute_error(y_test, lm_las_pred))
+print("Ridge Regression MAE: ", mean_absolute_error(y_test, lm_rid_pred))
+print("Random Forest MAE: ", mean_absolute_error(y_test, rf_pred))
+print("XGBoost MAE: ", mean_absolute_error(y_test, xgb_pred))
+
+"""
+MLR MAE:  5866922120737.591
+Lasso Regression MAE:  19647.73318939012
+Ridge Regression MAE:  19014.24458024136
+Random Forest MAE:  18593.04930865262
+XGBoost MAE:  22670.52023121387
+"""
