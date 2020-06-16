@@ -16,10 +16,17 @@ form {
 <head>
     <title>Predicting Software Engineer Salary</title>
 </head>
+
+<h1>Rashade 2020 Software Engineer Salary Estimator Tool</h1>
+
+
 <form action="{{ url_for('main') }}" method="POST">
     <fieldset>
-        <legend>Languages:      Yes:1       No:2</legend>
-        Python:
+        <legend>Yes:1       No:2</legend>
+            Job State:
+        <input name="job_state" type="text" step=".01" required>
+        <br>   
+        <br>  Python:
         <input name="python_yn" type="number" step=".01" required>
         <br>
         <br> Java:
@@ -37,18 +44,18 @@ form {
         <br> Swift:
         <input name="swift_yn" type="number" step=".01" required>
         <br>
-        <br>
         <br> Ruby:
         <input name="ruby_yn" type="number" step=".01" required>
-        <br>
         <br>
         <br> Javascript:
         <input name="javascript_yn" type="number" step=".01" required>
         <br>
-        <br>
         <br> SQL:
         <input name="SQL_yn" type="number" step=".01" required>
         <br>
+        <br> Seniority:
+        <input name="senior_yn" type="number" step=".01" required>
+
         <button type="submit" class="btn btn-primary btn-block btn-large">Predict!</button>
     </fieldset>
 </form>
