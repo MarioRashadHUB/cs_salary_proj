@@ -2,7 +2,7 @@
 <html>
 <style>
 
-body {background-color: powderblue;}
+ body {background-color: powderblue;}
  
 form {
     margin: auto;
@@ -23,14 +23,10 @@ form {
 <h1>Rashade 2020 Software Engineer Salary Estimator Tool</h1>
 
 
-
-
-
-
 <form action="{{ url_for('main') }}" id="salaryform" method="POST">
     <fieldset>
     <label for="state">State:</label>
-<select name="state_code" type="number"  text-align:center form="salaryform">
+<select name="state_code" type="number"  text-align:center form="salaryform" required>
  <option value="" selected disabled hidden>Select State</option>
   <option value=0>Alaska</option>
   <option value=1>Alabama</option>
@@ -109,7 +105,7 @@ form {
             </div>        
         <br>        
         <br> 
-            <div class="radio_PHP">
+            <div class="radio_php">
              PHP:
               <label class="radio-inline"><input type="radio" name="PHP_yn" value=1 required>Yes</label>
               <label class="radio-inline"><input type="radio" name="PHP_yn" value=0>No</label>
@@ -145,7 +141,7 @@ form {
         <br>
         <br> 
             <div class="radio_Senior Position">
-             Java:
+             Senior Position:
               <label class="radio-inline"><input type="radio" name="senior_yn" value=1 required>Yes</label>
               <label class="radio-inline"><input type="radio" name="senior_yn" value=0>No</label>
             </div>        
