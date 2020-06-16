@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<style>
+form {
+    margin: auto;
+    width: 35%;
+}
+
+.result {
+    margin: auto;
+    width: 35%;
+    border: 1px solid #ccc;
+}
+</style>
+
+<head>
+    <title>Predicting Software Engineer Salary</title>
+</head>
+<form action="{{ url_for('main') }}" method="POST">
+    <fieldset>
+        <legend>Languages:      Yes:1       No:2</legend>
+        Python:
+        <input name="python_yn" type="number" step=".01" required>
+        <br>
+        <br> Java:
+        <input name="java_yn" type="number" step=".01" required>
+        <br>
+        <br> C++:
+        <input name="C_plus_plus_yn" type="number" step=".01" required>
+        <br>
+        <br> C#
+        <input name="C_sharp_yn" type="number" step=".01" required>
+        <br>
+        <br> PHP:
+        <input name="PHP_yn" type="number" step=".01" required>
+        <br>
+        <br> Swift:
+        <input name="swift_yn" type="number" step=".01" required>
+        <br>
+        <br>
+        <br> Ruby:
+        <input name="ruby_yn" type="number" step=".01" required>
+        <br>
+        <br>
+        <br> Javascript:
+        <input name="javascript_yn" type="number" step=".01" required>
+        <br>
+        <br>
+        <br> SQL:
+        <input name="SQL_yn" type="number" step=".01" required>
+        <br>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict!</button>
+    </fieldset>
+</form>
+<br>
+<div class="result" align="center">
+    {% if result %}
+    	{% for variable, value in original_input.items() %}
+    		<b>{{ variable }}</b> : {{ value }}
+    	{% endfor %}
+		<br>
+    	<br> Predicted salary:
+   		<p style="font-size:50px" step=".01">{{ result }}</p>
+    {% endif %}
+</div>
+
+</html>
