@@ -21,7 +21,7 @@ def main():
     
     if flask.request.method == 'POST':
         # Extract the input
-        job_state = flask.request.form['job_state']
+        state_code = flask.request.form['state_code']
         python_yn = flask.request.form['python_yn']
         java_yn  = flask.request.form['java_yn']
         C_plus_plus_yn = flask.request.form['C_plus_plus_yn']
@@ -35,9 +35,9 @@ def main():
  
       
         # Make DataFrame for model
-        input_variables = pd.DataFrame([[ python_yn, java_yn, C_plus_plus_yn, C_sharp_yn, PHP_yn,
-                                         swift_yn, ruby_yn, javascript_yn, SQL_yn]],
-                                       columns=["job_state", "python_yn", "java_yn", "C_plus_plus_yn", "C_sharp_yn",
+        input_variables = pd.DataFrame([[ state_code, python_yn, java_yn, C_plus_plus_yn, C_sharp_yn, PHP_yn,
+                                         swift_yn, ruby_yn, javascript_yn, SQL_yn, senior_yn]],
+                                       columns=["state_code", "python_yn", "java_yn", "C_plus_plus_yn", "C_sharp_yn",
                                                 "PHP_yn", "swift_yn", "ruby_yn", "javascript_yn", "SQL_yn", "senior_yn"],
                                        dtype=float,
                                        index=['input'])
@@ -49,7 +49,7 @@ def main():
         # Render the form again, but add in the prediction and remind user
         # of the values they input before
         return flask.render_template('index.html',
-                                     original_input={'job_state':job_state,
+                                     original_input={'state_code':state_code,
                                                      'python_yn':python_yn,
                                                      'java_yn':java_yn,
                                                      'C_plus_plus_yn':C_plus_plus_yn,

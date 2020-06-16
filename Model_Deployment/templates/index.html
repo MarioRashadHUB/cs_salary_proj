@@ -1,6 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <style>
+
+body {background-color: powderblue;}
+ 
 form {
     margin: auto;
     width: 35%;
@@ -20,55 +23,144 @@ form {
 <h1>Rashade 2020 Software Engineer Salary Estimator Tool</h1>
 
 
-<form action="{{ url_for('main') }}" method="POST">
-    <fieldset>
-        <legend>Yes:1       No:2</legend>
-            Job State:
-        <input name="job_state" type="text" step=".01" required>
-        <br>   
-        <br>  Python:
-        <input name="python_yn" type="number" step=".01" required>
-        <br>
-        <br> Java:
-        <input name="java_yn" type="number" step=".01" required>
-        <br>
-        <br> C++:
-        <input name="C_plus_plus_yn" type="number" step=".01" required>
-        <br>
-        <br> C#
-        <input name="C_sharp_yn" type="number" step=".01" required>
-        <br>
-        <br> PHP:
-        <input name="PHP_yn" type="number" step=".01" required>
-        <br>
-        <br> Swift:
-        <input name="swift_yn" type="number" step=".01" required>
-        <br>
-        <br> Ruby:
-        <input name="ruby_yn" type="number" step=".01" required>
-        <br>
-        <br> Javascript:
-        <input name="javascript_yn" type="number" step=".01" required>
-        <br>
-        <br> SQL:
-        <input name="SQL_yn" type="number" step=".01" required>
-        <br>
-        <br> Seniority:
-        <input name="senior_yn" type="number" step=".01" required>
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict!</button>
+
+
+
+<form action="{{ url_for('main') }}" id="salaryform" method="POST">
+    <fieldset>
+    <label for="state">State:</label>
+<select name="state_code" type="number"  text-align:center form="salaryform">
+ <option value="" selected disabled hidden>Select State</option>
+  <option value=0>Alaska</option>
+  <option value=1>Alabama</option>
+  <option value=2>Arkansas</option>
+  <option value=3>Arizona</option>
+  <option value=4>California</option>
+  <option value=5>Colorado</option>
+  <option value=6>Connicut</option>
+  <option value=7>District of Columbia</option>
+  <option value=8>Delaware</option>
+  <option value=9>Florida</option>
+  <option value=10>Georgia</option>
+  <option value=11>Iowa</option>
+  <option value=12>Idaho</option>
+  <option value=13>Illinois</option>
+  <option value=14>Indiana</option>
+  <option value=15>Kansas</option>
+  <option value=16>Kentucky</option>
+  <option value=17>Louisana</option>
+  <option value=18>Massachusetts</option>
+  <option value=19>Maryland</option>
+  <option value=20>Michigan</option>
+  <option value=21>Minnesota</option>
+  <option value=22>Missouri</option>
+  <option value=23>Mississippi</option>
+  <option value=24>Montana</option>
+  <option value=25>North Carolina</option>
+  <option value=26>North Dakota</option>
+  <option value=27>Nebraska</option>
+  <option value=28>New Hampshire</option>
+  <option value=29>New Jersey</option>
+  <option value=30>New Mexico</option>
+  <option value=31>New York</option>
+  <option value=32>Ohio</option>
+  <option value=33>Oklahoma</option>
+  <option value=34>Oregon</option>
+  <option value=35>Pennsylvania</option>
+  <option value=36>Rhode Island</option>
+  <option value=37>South Carolina</option>
+  <option value=38>Tennessee</option>
+  <option value=39>Texas</option>
+  <option value=40>Utah</option>
+  <option value=41>Virginia</option>
+  <option value=42>Vermont</option>
+  <option value=43>Washington</option>
+  <option value=44>Wisconsin</option>
+</select>
+        <br>
+        <br> 
+        <br>
+            <div class="radio_python">
+             Python:
+              <label class="radio-inline"><input type="radio" name="python_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="python_yn" value=0>No</label>
+            </div>        
+        <br>
+        <br> 
+            <div class="radio_java">
+             Java:
+              <label class="radio-inline"><input type="radio" name="java_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="java_yn" value=0>No</label>
+            </div>        
+        <br>
+        <br> 
+            <div class="radio_C++">
+             C++:
+              <label class="radio-inline"><input type="radio" name="C_plus_plus_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="C_plus_plus_yn" value=0>No</label>
+            </div>
+        <br> 
+        <br>
+            <div class="radio_C#">
+             C#:
+              <label class="radio-inline"><input type="radio" name="C_sharp_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="C_sharp_yn" value=0>No</label>
+            </div>        
+        <br>        
+        <br> 
+            <div class="radio_PHP">
+             PHP:
+              <label class="radio-inline"><input type="radio" name="PHP_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="PHP_yn" value=0>No</label>
+            </div>        
+        <br>
+        <br>
+            <div class="radio_swift">
+             Swift:
+              <label class="radio-inline"><input type="radio" name="swift_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="swift_yn" value=0>No</label>
+            </div>        
+        <br>
+        <br> 
+            <div class="radio_ruby">
+             Ruby:
+              <label class="radio-inline"><input type="radio" name="ruby_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="ruby_yn" value=0>No</label>
+            </div>        
+        <br> 
+        <br>
+            <div class="radio_javascript">
+             JavaScript:
+              <label class="radio-inline"><input type="radio" name="javascript_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="javascript_yn" value=0>No</label>
+            </div>        
+        <br>
+        <br>
+            <div class="radio_sql">
+             SQL:
+              <label class="radio-inline"><input type="radio" name="SQL_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="SQL_yn" value=0>No</label>
+            </div>        
+        <br>
+        <br> 
+            <div class="radio_Senior Position">
+             Java:
+              <label class="radio-inline"><input type="radio" name="senior_yn" value=1 required>Yes</label>
+              <label class="radio-inline"><input type="radio" name="senior_yn" value=0>No</label>
+            </div>        
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict Salary</button>
     </fieldset>
 </form>
 <br>
 <div class="result" align="center">
-    {% if result %}
-    	{% for variable, value in original_input.items() %}
-    		<b>{{ variable }}</b> : {{ value }}
-    	{% endfor %}
+  
 		<br>
     	<br> Predicted salary:
    		<p style="font-size:50px" step=".01">{{ result }}</p>
-    {% endif %}
+   
 </div>
 
 </html>
